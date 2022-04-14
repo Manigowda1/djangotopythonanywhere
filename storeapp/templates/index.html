@@ -1,0 +1,95 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% load cart %}
+
+{% load custom_filter %}
+
+<div class="container-fluid mt-2">
+  <div class="row">
+    <!--Filter-->
+    <div class="col-lg-3 mx auto" >
+
+      <div class="list-group">
+        <a href="/" class="list-group-item list-group-item-action">All Category</a>
+        {% for category in categories %}
+        <a href="/?category={{category.id}}" class="list-group-item list-group-item-action">{{ category.name }}</a>
+
+        {% endfor %}
+      </div>
+      
+
+    </div>
+    <!--All Products-->
+
+    <div id = 'products' class="col-lg-9 mx-auto">
+      <div class="row mx-auto">
+        {% for product in products %}
+        <div class="card mx-auto mb-3" id = '{{product.id}}' style="width: 18rem;">
+          <img src="{{ product.image.url }}" class="card-img-top" alt="...">
+          <div class="card-body">
+            <h5 class="card-title">{{ product.name }}</h5>
+            <p class="card-text"><b>{{product.price|currency}}</b></p>
+            <h6 class="card-title">{{ product.description }}</h6>
+
+            <!-- {{product | is_in_cart:request.session.cart }} -->
+          
+            
+
+            <!-- <a href="#" class="btn btn-light border btn-sm">Wanna have!</a> -->
+          </div>
+        <div class="card-footer p-0">
+            {% if product|is_in_cart:request.session.cart %}
+            <div class="row no-gutters">
+              <form action="/#{{product.id}}" class="col-2 " method="post">
+                {% csrf_token %}
+                <input hidden type = "text" name = "product" value=" {{ product.id }}">
+                <input hidden type = "text" name = "remove" value="True">
+                <input type="submit" value=" - " class="btn btn-block btn-light">
+              </form>
+              <div class="text-center col">{{ product|cart_quantity:request.session.cart}} in cart</div>
+              <form action="/#{{product.id}}" class="col-2 " method="post">
+                {% csrf_token %}
+                <input hidden type = "text" name = "product" value=" {{ product.id }}">
+                <input type="submit" value=" + " class="btn btn-block btn-light">
+              </form>
+            </div>
+            {% else %}
+            <form action="/#{{product.id}}" method="POST" class="btn-block">
+              {% csrf_token %}
+              <input hidden type = "text" name = "product" value=" {{ product.id }}">
+              <input type="submit" class="float-right btn-block btn btn-light border form-control" value = "Wanna have!">
+            </form>
+            {% endif %}
+        </div>
+          
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+
+  </div>
+
+    </div>
+{% endblock %}
+
+
+
+
+
+
+
+<!--    &lt;!&ndash; Optional JavaScript; choose one of the two! &ndash;&gt;-->
+
+<!--    &lt;!&ndash; Option 1: Bootstrap Bundle with Popper &ndash;&gt;-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>-->
+
+<!--    &lt;!&ndash; Option 2: Separate Popper and Bootstrap JS &ndash;&gt;-->
+<!--    &lt;!&ndash;-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script>-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>-->
+<!--    &ndash;&gt;-->
+<!--  </body>-->
+<!--</html>-->

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="p-4 m-4">
+        <h3 class="alert alert-light border rounded">Create your Account</h3>
+        <form action="/signup" method="post">
+
+            {% csrf_token %}
+
+            {% if error %}
+
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+              
+            </div>
+            {% endif %}
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Name</label>
+                <input req type="text" class="form-control" value = "{{ values.name }}" name = "name" id="name">
+              </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Email address</label>
+              <input req type="email" class="form-control" value = "{{ values.email }}" name = "email" id="exampleInputEmail1" aria-describedby="emailHelp">
+              <div id="emailHelp" class="form-text">When you are in Rome be like a Roman but for now type your Email</div>
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Password</label>
+              <input req type="password" class="form-control" name = "password" id="exampleInputPassword1">
+            </div>
+            <!-- <div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" id="exampleCheck1">
+              <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            </div> -->
+            <button type="submit" class="btn btn-primary">Create an account</button>
+          </form>
+    </div>
+
+
+
+</div>
+
+
+{% endblock %}
